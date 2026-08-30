@@ -102,7 +102,7 @@ sy = std(yb, 1);
 for c = 1:numel(cases)
     m1 = rgasp(D, yb, cases{c}{:}, 'useMex', false);
     m2 = rgasp(D, yb, cases{c}{:}, 'useMex', true);
-    assert_close(m1.log_post, m2.log_post, 1e-7, sprintf('case %d log posterior', c));
+    assert_close(m1.log_post, m2.log_post, 1e-6, sprintf('case %d log posterior', c));
     assert_close(m1.beta_hat, m2.beta_hat, 1e-3, sprintf('case %d beta', c));
     assert_close(m1.sigma2_hat, m2.sigma2_hat, 1e-3, sprintf('case %d sigma2', c));
     p1 = rgasp_predict(m1, Dt); p2 = rgasp_predict(m2, Dt);

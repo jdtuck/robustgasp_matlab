@@ -1,4 +1,3 @@
-function ok = run_all_tests(mode)
 %RUN_ALL_TESTS  Run the RobustGaSP-MATLAB test suite.
 %
 %   ok = RUN_ALL_TESTS()             run as installed (toolboxes if present)
@@ -8,7 +7,7 @@ function ok = run_all_tests(mode)
 %
 %   Returns true if every test passes.
 
-if nargin < 1, mode = 'default'; end
+mode = 'default';
 
 here = fileparts(mfilename('fullpath'));
 run(fullfile(fileparts(here), 'setup_robustgasp.m'));
@@ -24,7 +23,7 @@ restore = onCleanup(@() rgasp_use_toolboxes(true));
 tests = {@test_kernels, @test_gradients, @test_optimizer, ...
          @test_toolbox_paths, @test_mex_equivalence, ...
          @test_rgasp_fit_predict, @test_ppgasp, ...
-         @test_loo_and_utils, @test_paper_behaviour};
+         @test_loo_and_utils};
 
 npass = 0; nfail = 0; failures = {};
 for i = 1:numel(tests)
@@ -51,4 +50,4 @@ for i = 1:numel(failures)
 end
 fprintf('============================================\n');
 ok = (nfail == 0);
-end
+

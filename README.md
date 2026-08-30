@@ -1,3 +1,5 @@
+[![Pipeline Status](https://github.com/jdtuck/robustgasp_matlab/actions/workflows/matlab.yml/badge.svg)](https://github.com/jdtuck/robustgasp_matlab/actions/workflows/matlab.yml)
+
 # RobustGaSP-MATLAB
 
 A from-scratch MATLAB implementation of
