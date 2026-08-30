@@ -102,10 +102,10 @@ sy = std(yb, 1);
 for c = 1:numel(cases)
     m1 = rgasp(D, yb, cases{c}{:}, 'useMex', false);
     m2 = rgasp(D, yb, cases{c}{:}, 'useMex', true);
-    assert_close(m1.log_post, m2.log_post, 1e-6, sprintf('case %d log posterior', c));
-    assert_close(m1.beta_hat, m2.beta_hat, 1e-3, sprintf('case %d beta', c));
-    assert_close(m1.sigma2_hat, m2.sigma2_hat, 1e-3, sprintf('case %d sigma2', c));
-    p1 = rgasp_predict(m1, Dt); p2 = rgasp_predict(m2, Dt);
+    assert_close(m1.model.log_post, m2.model.log_post, 1e-6, sprintf('case %d log posterior', c));
+    assert_close(m1.model.beta_hat, m2.model.beta_hat, 1e-3, sprintf('case %d beta', c));
+    assert_close(m1.model.sigma2_hat, m2.model.sigma2_hat, 1e-3, sprintf('case %d sigma2', c));
+    p1 = rgasp_predict(m1.model, Dt); p2 = rgasp_predict(m2.model, Dt);
     if max(abs(p1.mean - p2.mean))/sy > 1e-5
         error('case %d: predictive means differ by %.2g sd(y)', ...
               c, max(abs(p1.mean - p2.mean))/sy);

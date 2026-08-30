@@ -78,9 +78,9 @@ for i = 1:numel(solvers)
     % that is a different feasible set and its mode is not comparable.
     mi = rgasp(D, y, 'optimizer', solvers{i}, 'numInitialValues', 3, ...
                'lowerBound', bounded(i));
-    pi_ = rgasp_predict(mi, Dt);
+    pi_ = rgasp_predict(mi.model, Dt);
     si  = rgasp_validate(pi_, yt, false);
-    lp(i) = mi.log_post; nr(i) = si.nrmse;
+    lp(i) = mi.model.log_post; nr(i) = si.nrmse;
 end
 
 fprintf('  optimizers:\n');
@@ -108,8 +108,8 @@ end
 x = linspace(0, 10, 18)';
 mm = rgasp(x, higdon_1_data(x));
 xt = linspace(0.3, 9.7, 12)';
-S = rgasp_simulate(mm, xt, 4000, 'seed', 7);
-pr = rgasp_predict(mm, xt);
+S = rgasp_simulate(mm.model, xt, 4000, 'seed', 7);
+pr = rgasp_predict(mm.model, xt);
 if max(abs(mean(S,2) - pr.mean)) > 6*max(pr.sd)/sqrt(4000)
     error('simulated paths are not centred on the predictive mean');
 end

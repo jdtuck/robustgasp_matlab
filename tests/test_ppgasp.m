@@ -6,9 +6,9 @@ x = linspace(0, 10, 15)';
 y = higdon_1_data(x);
 m1 = rgasp(x, y);
 m2 = ppgasp(x, y);
-assert_close(m2.beta_hat, m1.beta_hat, 1e-12, 'ppgasp with k=1 range parameters');
-assert_close(m2.sigma2_hat, m1.sigma2_hat, 1e-12, 'ppgasp with k=1 variance');
-p1 = rgasp_predict(m1, x); p2 = ppgasp_predict(m2, x);
+assert_close(m2.beta_hat, m1.model.beta_hat, 1e-12, 'ppgasp with k=1 range parameters');
+assert_close(m2.sigma2_hat, m1.model.sigma2_hat, 1e-12, 'ppgasp with k=1 variance');
+p1 = rgasp_predict(m1.model, x); p2 = ppgasp_predict(m2, x);
 assert_close(p2.mean, p1.mean, 1e-12, 'ppgasp with k=1 predictive mean');
 assert_close(p2.sd,   p1.sd,   1e-12, 'ppgasp with k=1 predictive sd');
 
@@ -52,9 +52,9 @@ assert_close(pd.mean, Yd, 1e-5, 'ppgasp interpolation');
 cols = [1, 37, 120, mp.k];
 for c = cols
     mc = rgasp(Dd, Yd(:,c), 'rangePar', mp.range_hat, 'nugget', mp.nugget);
-    assert_close(mc.sigma2_hat, mp.sigma2_hat(c), 1e-8, ...
+    assert_close(mc.model.sigma2_hat, mp.sigma2_hat(c), 1e-8, ...
                  sprintf('column %d variance', c));
-    pc = rgasp_predict(mc, Dt);
+    pc = rgasp_predict(mc.model, Dt);
     assert_close(pc.mean, pp.mean(:,c), 1e-8, sprintf('column %d mean', c));
     assert_close(pc.sd,   pp.sd(:,c),   1e-8, sprintf('column %d sd', c));
 end
@@ -62,7 +62,7 @@ end
 % ---- 5. the joint likelihood is not the sum of independent fits --------
 %   (sanity check that the range parameters really are shared)
 ma = rgasp(Dd, Yd(:,1));
-if abs(ma.beta_hat(1) - mp.beta_hat(1)) < 1e-12
+if abs(ma.model.beta_hat(1) - mp.beta_hat(1)) < 1e-12
     error('PP GaSP range estimate coincides exactly with a single-column fit');
 end
 

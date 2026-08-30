@@ -1,4 +1,4 @@
-function model = rgasp(design, response, varargin)
+function obj = rgasp(design, response, varargin)
 %RGASP  Robust Gaussian stochastic process emulator (scalar output).
 %
 %   model = RGASP(design, response)
@@ -68,4 +68,5 @@ if size(response, 2) ~= 1 && numel(response) ~= size(design,1)
 end
 response = response(:);
 model = gasp_fit(design, response, varargin{:});
+obj = rgasp_model(model);
 end

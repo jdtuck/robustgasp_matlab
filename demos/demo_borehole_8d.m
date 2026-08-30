@@ -19,15 +19,15 @@ Dt = bsxfun(@plus, bsxfun(@times, Ut, ub-lb), lb);
 yd = borehole(Dd);
 yt = borehole(Dt);
 
-model = rgasp(Dd, yd, 'numInitialValues', 3);
-rgasp_summary(model);
+obj = rgasp(Dd, yd, 'numInitialValues', 3);
+rgasp_summary(obj.model);
 
-pred = rgasp_predict(model, Dt);
+pred = rgasp_predict(obj.model, Dt);
 fprintf('Held-out validation (%d points):\n', nt);
 rgasp_validate(pred, yt);
 
 fprintf('\nInert-input diagnostic:\n');
-P = rgasp_inert_inputs(model);
+P = rgasp_inert_inputs(obj.model);
 
 names = {'rw','r','Tu','Hu','Tl','Hl','L','Kw'};
 fig = figure('Visible','off');
